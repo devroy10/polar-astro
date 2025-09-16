@@ -55,6 +55,7 @@ Visit `http://localhost:4321` to see the demo interface.
 
 ### Vercel (Recommended)
 
+1. Add the vercel adapter to your proects, [link here](https://docs.astro.build/en/guides/integrations-guide/vercel/#installation)
 1. Connect your repository to Vercel
 2. Add environment variables in Vercel dashboard
 3. Deploy automatically on push

@@ -1,13 +1,9 @@
 import { defineConfig, envField } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
-// import node from "@astrojs/node";
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   output: 'server',
-
-  // adapter: node({
-  //   mode: "standalone",
-  // }),
   env: {
     schema: {
       POLAR_ACCESS_TOKEN: envField.string({
@@ -35,4 +31,5 @@ export default defineConfig({
   },
 
   integrations: [],
+  adapter: vercel(),
 })
