@@ -1,12 +1,13 @@
 import { Polar } from '@polar-sh/sdk'
 
-const accessToken = import.meta.env.MODE === 'production' ? import.meta.env.POLAR_ACCESS_TOKEN : import.meta.env.SANDBOX_POLAR_ACCESS_TOKEN
+// Use POLAR_ACCESS_TOKEN for all environments for now
+const accessToken = import.meta.env.POLAR_ACCESS_TOKEN
 
 if (!accessToken) {
-  throw new Error(`Missing Polar access token for ${import.meta.env.MODE} environment`)
+  throw new Error(`Missing POLAR_ACCESS_TOKEN environment variable`)
 }
 
 export const polarClient = new Polar({
   accessToken,
-  server: import.meta.env.MODE === 'production' ? 'production' : 'sandbox',
+  server: 'production', // or 'sandbox' depending on your token type
 })
