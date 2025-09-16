@@ -9,12 +9,7 @@ export default defineConfig({
       POLAR_ACCESS_TOKEN: envField.string({
         context: 'server',
         access: 'secret',
-        optional: true, // Make it optional
-      }),
-      SANDBOX_POLAR_ACCESS_TOKEN: envField.string({
-        context: 'server',
-        access: 'secret',
-        optional: true, // Make it optional
+        // optional: true, // Make it optional
       }),
       POLAR_WEBHOOK_SECRET: envField.string({
         context: 'server',

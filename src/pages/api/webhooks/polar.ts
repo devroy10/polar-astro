@@ -1,8 +1,8 @@
 import { Webhooks } from '@polar-sh/astro'
-// import { POLAR_WEBHOOK_SECRET } from "astro:env/server";
+import { POLAR_WEBHOOK_SECRET } from "astro:env/server";
 
 export const POST = Webhooks({
-  webhookSecret: import.meta.env.POLAR_WEBHOOK_SECRET,
+  webhookSecret: POLAR_WEBHOOK_SECRET,
 
   // Catch-all handler for any other events
   onPayload: async (payload) => {
