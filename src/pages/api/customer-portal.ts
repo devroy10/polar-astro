@@ -1,10 +1,9 @@
 import { CustomerPortal } from '@polar-sh/astro'
-// import { POLAR_ACCESS_TOKEN } from "astro:env/server";
+import { SANDBOX_POLAR_ACCESS_TOKEN } from 'astro:env/server'
 
-const accessToken = import.meta.env.MODE === 'production' ? import.meta.env.POLAR_ACCESS_TOKEN : import.meta.env.SANDBOX_POLAR_ACCESS_TOKEN
-
+const accessToken = SANDBOX_POLAR_ACCESS_TOKEN
 if (!accessToken) {
-  throw new Error(`Missing Polar access token for ${import.meta.env.MODE} environment`)
+  throw new Error(`Missing SANDBOX_POLAR_ACCESS_TOKEN environment variable hi`)
 }
 
 export const GET = CustomerPortal({
@@ -56,5 +55,5 @@ export const GET = CustomerPortal({
     // If no customer ID found, return null or throw error
     throw new Error('Customer ID not found. Please provide customerId or customerEmail parameter.')
   },
-  server: import.meta.env.MODE === 'production' ? 'production' : 'sandbox',
+  server: 'sandbox',
 })

@@ -1,6 +1,6 @@
 import { defineConfig, envField } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel'
 
 export default defineConfig({
   output: 'server',
@@ -9,6 +9,7 @@ export default defineConfig({
       POLAR_ACCESS_TOKEN: envField.string({
         context: 'server',
         access: 'secret',
+        optional: true, // Make it optional
       }),
       SANDBOX_POLAR_ACCESS_TOKEN: envField.string({
         context: 'server',

@@ -1,13 +1,13 @@
+// src/lib/polarClient.ts
 import { Polar } from '@polar-sh/sdk'
+import { SANDBOX_POLAR_ACCESS_TOKEN } from 'astro:env/server'
 
-// Use POLAR_ACCESS_TOKEN for all environments for now
-const accessToken = process.env.POLAR_ACCESS_TOKEN
-
+const accessToken = SANDBOX_POLAR_ACCESS_TOKEN
 if (!accessToken) {
-  throw new Error(`Missing POLAR_ACCESS_TOKEN environment variable`)
+  throw new Error(`Missing SANDBOX_POLAR_ACCESS_TOKEN environment variable hi`)
 }
 
 export const polarClient = new Polar({
   accessToken,
-  server: 'production', // or 'sandbox' depending on your token type
+  server: 'sandbox',
 })

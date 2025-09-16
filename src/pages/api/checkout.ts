@@ -1,15 +1,14 @@
 import { Checkout } from '@polar-sh/astro'
-// import { POLAR_ACCESS_TOKEN, POLAR_SUCCESS_URL } from "astro:env/server";
+import { SANDBOX_POLAR_ACCESS_TOKEN, POLAR_SUCCESS_URL } from 'astro:env/server'
 
-const accessToken = import.meta.env.MODE === 'production' ? import.meta.env.POLAR_ACCESS_TOKEN : import.meta.env.SANDBOX_POLAR_ACCESS_TOKEN
-
-if (!accessToken) {
-  throw new Error(`Missing Polar access token for ${import.meta.env.MODE} environment`)
+// const accessToken = process.env.SANDBOX_POLAR_ACCESS_TOKEN
+if (!SANDBOX_POLAR_ACCESS_TOKEN) {
+  throw new Error(`Missing SANDBOX_POLAR_ACCESS_TOKEN environment variable`)
 }
 
 export const GET = Checkout({
-  accessToken: accessToken,
-  successUrl: import.meta.env.POLAR_SUCCESS_URL,
-  server: import.meta.env.MODE === 'production' ? 'production' : 'sandbox',
+  accessToken: SANDBOX_POLAR_ACCESS_TOKEN,
+  successUrl: POLAR_SUCCESS_URL,
+  server: 'sandbox',
   theme: 'light', // optional
 })
