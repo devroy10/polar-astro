@@ -1,6 +1,6 @@
 ![](../logo.svg)
 
-# Example of Polar with Astro
+# Getting Started with Polar and Astro
 This repo is a demonstration of the integration of Polar features such as Webhooks, Customer Portal and Checkout creation organization in Astro.
 
 ## Prerequisites

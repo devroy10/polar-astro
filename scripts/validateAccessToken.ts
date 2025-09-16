@@ -163,6 +163,9 @@ async function validatePolarToken() {
       logError(`Failed to access Orders API: ${error instanceof Error ? error.message : 'Unknown error'}`)
       logWarning('This might be a permission issue with your access token')
     }
+    
+    log('')
+
     log(`${colors.bold}Test 6: Checkout Session Creation${colors.reset}`)
     try {
       // First, get a product to test with

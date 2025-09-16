@@ -9,7 +9,6 @@ export default defineConfig({
       POLAR_ACCESS_TOKEN: envField.string({
         context: 'server',
         access: 'secret',
-        // optional: true, // Make it optional
       }),
       POLAR_WEBHOOK_SECRET: envField.string({
         context: 'server',
@@ -18,6 +17,22 @@ export default defineConfig({
       POLAR_SUCCESS_URL: envField.string({
         context: 'server',
         access: 'public',
+      }),
+      SANDBOX_POLAR_ACCESS_TOKEN: envField.string({
+        context: 'server',
+        access: 'secret',
+      }),
+      SANDBOX_POLAR_WEBHOOK_SECRET: envField.string({
+        context: 'server',
+        access: 'secret',
+      }),
+      SANDBOX_POLAR_SUCCESS_URL: envField.string({
+        context: 'server',
+        access: 'public',
+      }),
+      POLAR_MODE: envField.string({
+        context: 'server',
+        access: 'secret',
       }),
     },
   },
