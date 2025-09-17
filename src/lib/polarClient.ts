@@ -1,7 +1,7 @@
 import { Polar } from '@polar-sh/sdk'
 import { POLAR_ACCESS_TOKEN, SANDBOX_POLAR_ACCESS_TOKEN, POLAR_MODE } from 'astro:env/server'
 
-type PolarMode = 'production' | 'sandbox' | undefined;
+type PolarMode = 'production' | 'sandbox' | undefined
 
 const accessToken = POLAR_MODE === 'sandbox' ? SANDBOX_POLAR_ACCESS_TOKEN : POLAR_ACCESS_TOKEN
 

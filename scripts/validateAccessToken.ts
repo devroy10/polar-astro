@@ -41,30 +41,33 @@ async function validatePolarToken() {
     // Check environment variables
     const productionToken = process.env.POLAR_ACCESS_TOKEN
     const sandboxToken = process.env.SANDBOX_POLAR_ACCESS_TOKEN
+    const polarMode = process.env.POLAR_MODE || 'sandbox' // Default to sandbox
     const currentEnv = process.env.NODE_ENV || 'development'
 
-    logInfo(`Current environment: ${currentEnv}`)
+    logInfo(`NODE_ENV: ${currentEnv}`)
+    logInfo(`POLAR_MODE: ${polarMode}`)
     logInfo(`Production token present: ${productionToken ? 'Yes' : 'No'}`)
     logInfo(`Sandbox token present: ${sandboxToken ? 'Yes' : 'No'}`)
     log('')
 
-    // Determine which token to use
+    // Determine which token to use based on POLAR_MODE
     let accessToken: string | undefined
     let server: 'production' | 'sandbox'
 
-    if (currentEnv === 'production') {
+    if (polarMode === 'production') {
       accessToken = productionToken
       server = 'production'
-      logInfo('Using production configuration')
+      logInfo('Using production configuration (POLAR_MODE=production)')
     } else {
       accessToken = sandboxToken
       server = 'sandbox'
-      logInfo('Using sandbox configuration')
+      logInfo('Using sandbox configuration (POLAR_MODE=sandbox or default)')
     }
 
     if (!accessToken) {
       logError(`Missing access token for ${server} environment`)
-      logError(`Please set ${server === 'production' ? 'POLAR_ACCESS_TOKEN' : 'POLAR_SANDBOX_ACCESS_TOKEN'} in your .env file`)
+      logError(`Please set ${server === 'production' ? 'POLAR_ACCESS_TOKEN' : 'SANDBOX_POLAR_ACCESS_TOKEN'} in your .env file`)
+      logError(`Current POLAR_MODE: ${polarMode}`)
       process.exit(1)
     }
 
@@ -163,9 +166,10 @@ async function validatePolarToken() {
       logError(`Failed to access Orders API: ${error instanceof Error ? error.message : 'Unknown error'}`)
       logWarning('This might be a permission issue with your access token')
     }
-    
+
     log('')
 
+    // Test 6: Checkout Session Creation
     log(`${colors.bold}Test 6: Checkout Session Creation${colors.reset}`)
     try {
       // First, get a product to test with
@@ -196,13 +200,7 @@ async function validatePolarToken() {
         logSuccess('Checkout session retrieval successful!')
         logInfo(`Retrieved session status: ${retrievedSession.status}`)
 
-        // Clean up - expire the test session
-        try {
-          await polar.checkouts.update({ id: checkoutSession.id, checkoutUpdate: { amount: 0 } }, { cache: 'default' })
-          logInfo('Test checkout session expired (cleaned up)')
-        } catch (cleanupError) {
-          logWarning('Could not clean up test session - you may need to manually expire it')
-        }
+        logInfo('Test checkout session created successfully (no cleanup needed)')
       }
     } catch (error) {
       logError(`Failed to create checkout session: ${error instanceof Error ? error.message : 'Unknown error'}`)
@@ -219,11 +217,31 @@ async function validatePolarToken() {
     }
 
     log('')
+
+    // Environment Configuration Summary
+    log(`${colors.bold}=== Environment Configuration ===${colors.reset}`)
+    logInfo(`Current configuration:`)
+    logInfo(`• POLAR_MODE: ${polarMode}`)
+    logInfo(`• Using ${server} server`)
+    logInfo(`• Token: ${maskedToken}`)
+
+    if (polarMode === 'production') {
+      logWarning('You are using PRODUCTION mode!')
+      logWarning('Make sure you have the correct production token set')
+    } else {
+      logInfo('You are using SANDBOX mode (safe for testing)')
+    }
+
+    log('')
     log(`${colors.bold}=== Validation Complete ===${colors.reset}`)
     logSuccess('Polar integration validation completed successfully!')
     log('')
     logInfo('Your Polar access token is working correctly.')
     logInfo('You can now use this token in your Astro application.')
+    log('')
+    logInfo('To switch modes, set POLAR_MODE in your .env file:')
+    logInfo('• POLAR_MODE=sandbox (for testing)')
+    logInfo('• POLAR_MODE=production (for live environment)')
   } catch (error) {
     log('')
     logError('Validation failed with an unexpected error:')
